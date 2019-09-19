@@ -63,14 +63,16 @@ var generateWizardObject = function (names, surnames, coatColors, eyeColors) {
   var flag = generateRandomNumber(0, 1);
 
   if (flag) {
-    wizardObject.name = names[generateRandomNumber(0, names.length)] + ' ' + surnames[generateRandomNumber(0, surnames.length)];
+    wizardObject.name = names[generateRandomNumber(0, names.length - 1)] + ' '
+      + surnames[generateRandomNumber(0, surnames.length - 1)];
   } else {
-    wizardObject.name = surnames[generateRandomNumber(0, surnames.length)] + ' ' + names[generateRandomNumber(0, names.length)];
+    wizardObject.name = surnames[generateRandomNumber(0, surnames.length - 1)] + ' '
+      + names[generateRandomNumber(0, names.length - 1)];
   }
 
-  wizardObject.coatColor = coatColors[generateRandomNumber(0, coatColors.length)];
+  wizardObject.coatColor = coatColors[generateRandomNumber(0, coatColors.length - 1)];
 
-  wizardObject.eyesColor = eyeColors[generateRandomNumber(0, eyeColors.length)];
+  wizardObject.eyesColor = eyeColors[generateRandomNumber(0, eyeColors.length - 1)];
 
   return wizardObject;
 };
