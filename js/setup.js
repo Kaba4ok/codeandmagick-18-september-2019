@@ -101,7 +101,6 @@ var renderWizard = function (wizard) {
 
 // отрисовывает список волшебников
 var renderWizardsList = function (wizards) {
-  setupSimilar.classList.remove('hidden');
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < wizards.length; i++) {
@@ -112,3 +111,5 @@ var renderWizardsList = function (wizards) {
 };
 
 renderWizardsList(generateWizardsObjectsArray(WIZARDS_COUNT));
+
+setupSimilar.classList.remove('hidden');
