@@ -103,9 +103,9 @@ var renderWizard = function (wizard) {
 var renderWizardsList = function (wizards) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < wizards.length; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
-  }
+  wizards.forEach(function (wizard) {
+    fragment.appendChild(renderWizard(wizard));
+  });
 
   similarList.appendChild(fragment);
 };
