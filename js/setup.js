@@ -39,7 +39,18 @@ var EYES_COLORS = [
   'green'
 ];
 
+var FIREBALL_COLORS = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
 var WIZARDS_COUNT = 4;
+
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var setupModal = document.querySelector('.setup');
 var setupSimilar = setupModal.querySelector('.setup-similar');
@@ -47,7 +58,20 @@ var similarList = setupModal.querySelector('.setup-similar-list');
 var wizardTemplate = document.querySelector('#similar-wizard-template')
   .content.querySelector('.setup-similar-item');
 
-setupModal.classList.remove('hidden');
+var setupOpenButton = document.querySelector('.setup-open');
+var setupCloseButton = setupModal.querySelector('.setup-close');
+
+var userNameInput = setupModal.querySelector('.setup-user-name');
+
+var userWizard = setupModal.querySelector('.setup-wizard');
+var wizardCoat = userWizard.querySelector('.wizard-coat');
+var wizardEyes = userWizard.querySelector('.wizard-eyes');
+var wizardFireball = setupModal.querySelector('.setup-fireball-wrap');
+var wizardCoatColorInput = setupModal.querySelector('input[name="coat-color"]');
+var wizardEyesColorInput = setupModal.querySelector('input[name="eyes-color"]');
+var wizardFireballColorInput = setupModal.querySelector('input[name="fireball-color"]');
+
+// ------------------------------ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ--------------------------------
 
 // генерирует случайное число
 var generateRandomNumber = function (min, max) {
@@ -55,6 +79,37 @@ var generateRandomNumber = function (min, max) {
 
   return randomNumber;
 };
+
+// удаляет отрисованных волшебников
+var clearWizardsList = function () {
+  var similarWizard = similarList.querySelectorAll('.setup-similar-item');
+
+  similarWizard.forEach(function (wizard) {
+    similarList.removeChild(wizard);
+  });
+};
+
+// получает последующее значение массива начиная с указанного
+var generateNextArrayValue = function (currentValue, array) {
+  var index = 0;
+
+  for (var i = 0; i < array.length; i++) {
+
+    if (currentValue === array[i]) {
+      index = i + 1;
+
+      if (index === array.length) {
+        index = 0;
+      }
+    }
+  }
+
+  var nextValue = array[index];
+
+  return nextValue;
+};
+
+// -----------------------------ОТРИСОВКА ВОЛШЕБНИКОВ--------------------------------------
 
 // создает объект волшебника
 var generateWizardObject = function (names, surnames, coatColors, eyeColors) {
@@ -110,6 +165,101 @@ var renderWizardsList = function (wizards) {
   similarList.appendChild(fragment);
 };
 
-renderWizardsList(generateWizardsObjectsArray(WIZARDS_COUNT));
+// --------------------------ОБРАБОТЧИКИ--------------------------------------------------------
 
-setupSimilar.classList.remove('hidden');
+// обработчик события нажатия на клавишу ESC
+var onModalEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeSetupModal();
+  }
+};
+
+// обработчик события focus на поле ввода имени
+var onInputNameFocus = function () {
+  document.removeEventListener('keydown', onModalEscPress);
+};
+
+// обработчик клика по плащу волшебника (меняет цвет плаща)
+var onWizardCoatClick = function () {
+
+  var nextCoatColor = generateNextArrayValue(wizardCoatColorInput.value, COAT_COLORS);
+
+  wizardCoat.style.fill = nextCoatColor;
+  wizardCoatColorInput.value = nextCoatColor;
+};
+
+// обработчик клика по глазам волшебника (меняет цвет глаз)
+var onWizardEyesClick = function () {
+
+  var nextEyesColor = generateNextArrayValue(wizardEyesColorInput.value, EYES_COLORS);
+
+  wizardEyes.style.fill = nextEyesColor;
+  wizardEyesColorInput.value = nextEyesColor;
+};
+
+// обработчик клика по файерболу волшебника (меняет цвет файербола)
+var onWizardFireballClick = function () {
+
+  var nextFireballColor = generateNextArrayValue(wizardFireballColorInput.value, FIREBALL_COLORS);
+
+  wizardFireball.style.backgroundColor = nextFireballColor;
+  wizardFireballColorInput.value = nextFireballColor;
+};
+
+// открывает окно с настройками
+var openSetupModal = function () {
+  clearWizardsList();
+  renderWizardsList(generateWizardsObjectsArray(WIZARDS_COUNT));
+
+  setupModal.classList.remove('hidden');
+  setupSimilar.classList.remove('hidden');
+
+  document.addEventListener('keydown', onModalEscPress);
+
+  userNameInput.addEventListener('focus', onInputNameFocus);
+  userNameInput.addEventListener('blur', function () {
+    document.addEventListener('keydown', onModalEscPress);
+  });
+};
+
+// закрывает окно с настройками
+var closeSetupModal = function () {
+  setupModal.classList.add('hidden');
+
+  document.removeEventListener('keydown', onModalEscPress);
+};
+
+
+// ----------------------------------СОБЫТИЯ----------------------------------------
+
+
+// открытие окна настроек по клику
+setupOpenButton.addEventListener('click', openSetupModal);
+
+// открытие окна настроек с клавиатуры
+setupOpenButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openSetupModal();
+  }
+});
+
+// закрытие окна настроек по клику
+setupCloseButton.addEventListener('click', closeSetupModal);
+
+// закрытие окна настроек с клавиатуры
+setupCloseButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeSetupModal();
+  }
+});
+
+// меняет цвет плаща по клику на него
+wizardCoat.addEventListener('click', onWizardCoatClick);
+
+// меняет цвет глаз по клику на них
+wizardEyes.addEventListener('click', onWizardEyesClick);
+
+// меняет цвет файербола по клику на него
+wizardFireball.addEventListener('click', onWizardFireballClick);
+
+// ---------------------------------------------------------------------------------------------
