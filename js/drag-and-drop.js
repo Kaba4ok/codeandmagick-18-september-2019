@@ -18,7 +18,7 @@
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
 
-      var dragged = true;
+      dragged = true;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
