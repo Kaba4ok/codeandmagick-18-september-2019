@@ -56,7 +56,7 @@
     coatColors: COAT_COLORS,
     eyesColors: EYES_COLORS,
     fireballColors: FIREBALL_COLORS,
-    wizardsCount: 4
+    wizardsCount: WIZARDS_COUNT
   };
 
 })();
