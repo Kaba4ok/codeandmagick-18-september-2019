@@ -14,6 +14,8 @@
   var wizardEyes = setupModal.querySelector('.wizard-eyes');
   var wizardFireball = setupModal.querySelector('.setup-fireball-wrap');
 
+  var form = setupModal.querySelector('.setup-wizard-form');
+
   //
   var resetDialogPosition = function () {
     setupModal.removeAttribute('style');
@@ -44,10 +46,26 @@
     document.addEventListener('keydown', onModalEscPress);
   };
 
+  var onLoad = function (wizards) {
+    window.renderWizards.renderWizardsList(wizards);
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
   // открывает окно с настройками
   var openSetupModal = function () {
     window.renderWizards.clearWizardsList();
-    window.renderWizards.renderWizardsList(window.generateWizards(window.data.wizardsCount));
+    window.backend.load(onLoad, onError);
 
     setupModal.classList.remove('hidden');
     setupSimilar.classList.remove('hidden');
@@ -72,6 +90,18 @@
 
     document.removeEventListener('keydown', onModalEscPress);
   };
+
+  //
+  var onSubmit = function (evt) {
+    window.backend.save(new FormData(form), function () {
+      closeSetupModal();
+    });
+
+    evt.preventDefault();
+  };
+
+  //
+  form.addEventListener('submit', onSubmit);
 
   // открытие окна настроек по клику
   setupOpenButton.addEventListener('click', openSetupModal);
