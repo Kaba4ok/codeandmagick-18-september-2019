@@ -91,16 +91,14 @@
     document.removeEventListener('keydown', onModalEscPress);
   };
 
-  //
+  // обработчик события отпраки формы
   var onSubmit = function (evt) {
-    window.backend.save(new FormData(form), function () {
-      closeSetupModal();
-    });
+    window.backend.save(new FormData(form), closeSetupModal, onError);
 
     evt.preventDefault();
   };
 
-  //
+  // подписка на событие отправки формы
   form.addEventListener('submit', onSubmit);
 
   // открытие окна настроек по клику
