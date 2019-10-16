@@ -47,7 +47,8 @@
   };
 
   var onLoad = function (wizards) {
-    window.renderWizards.renderWizardsList(wizards);
+    // window.renderWizards.renderWizardsList(wizards);
+    window.updateWizards(wizards);
   };
 
   var onError = function (errorMessage) {
