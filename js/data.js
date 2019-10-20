@@ -2,7 +2,7 @@
 
 (function () {
 
-  window.onError = function (errorMessage) {
+  var onError = function (errorMessage) {
     var node = document.createElement('div');
     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
     node.style.position = 'absolute';
@@ -48,6 +48,7 @@
   var WIZARDS_COUNT = 4;
 
   window.data = {
+    onError: onError,
     coatColors: COAT_COLORS,
     eyesColors: EYES_COLORS,
     fireballColors: FIREBALL_COLORS,
