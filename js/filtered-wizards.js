@@ -24,7 +24,12 @@
   };
 
   // отрисовывает обновленный список похожих волшебников
-  window.updateWizards = function (wizards) {
+  window.updateWizards = function () {
+
+    window.renderWizards.clearWizardsList();
+
+    var wizards = window.wizards;
+
     window.renderWizards.renderWizardsList(wizards
       .slice()
       .sort(function (left, right) {
