@@ -24,7 +24,7 @@
   };
 
   // отрисовывает обновленный список похожих волшебников
-  window.updateWizards = function () {
+  window.updateWizards = window.debounce(function () {
 
     window.renderWizards.clearWizardsList();
 
@@ -40,6 +40,6 @@
         return rankDiff;
       })
     );
-  };
+  });
 
 })();

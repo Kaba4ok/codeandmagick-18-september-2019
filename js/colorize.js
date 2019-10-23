@@ -18,7 +18,7 @@
     wizardCoat.style.fill = nextCoatColor;
     wizardCoatColorInput.value = nextCoatColor;
 
-    window.debounce(window.updateWizards);
+    window.updateWizards();
   };
 
   // обработчик клика по глазам волшебника (меняет цвет глаз)
@@ -29,7 +29,7 @@
     wizardEyes.style.fill = nextEyesColor;
     wizardEyesColorInput.value = nextEyesColor;
 
-    window.debounce(window.updateWizards);
+    window.updateWizards();
   };
 
   // обработчик клика по файерболу волшебника (меняет цвет файербола)
