@@ -32,8 +32,7 @@
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < window.data.wizardsCount; i++) {
-      var index = window.utils.generateRandomNumber(0, wizards.length);
-      fragment.appendChild(renderWizard(wizards[index]));
+      fragment.appendChild(renderWizard(wizards[i]));
     }
 
     similarList.appendChild(fragment);

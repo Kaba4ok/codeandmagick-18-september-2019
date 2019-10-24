@@ -46,26 +46,10 @@
     document.addEventListener('keydown', onModalEscPress);
   };
 
-  var onLoad = function (wizards) {
-    window.renderWizards.renderWizardsList(wizards);
-  };
-
-  var onError = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
-  };
-
   // открывает окно с настройками
   var openSetupModal = function () {
     window.renderWizards.clearWizardsList();
-    window.backend.load(onLoad, onError);
+    window.updateWizards();
 
     setupModal.classList.remove('hidden');
     setupSimilar.classList.remove('hidden');
@@ -91,16 +75,14 @@
     document.removeEventListener('keydown', onModalEscPress);
   };
 
-  //
+  // обработчик события отпраки формы
   var onSubmit = function (evt) {
-    window.backend.save(new FormData(form), function () {
-      closeSetupModal();
-    });
+    window.backend.save(new FormData(form), closeSetupModal, window.data.onError);
 
     evt.preventDefault();
   };
 
-  //
+  // подписка на событие отправки формы
   form.addEventListener('submit', onSubmit);
 
   // открытие окна настроек по клику
